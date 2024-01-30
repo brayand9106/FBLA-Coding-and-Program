@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 sg.theme("DarkGrey4") #The theme of the window for the program
 sg.set_options(font=("Arial Bold", 20))
 #Menu dropdown from filter button
-menu_def = [["filter"], ['Alphabetical', 'Type of Organization']]
+menu_def = [['Filter', ['Alphabetical', 'Type of Organization']]]
 
 buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
 
