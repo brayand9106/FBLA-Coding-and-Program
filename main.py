@@ -37,9 +37,12 @@ def getOrganizationFromClick(theEvent, thePartners):
     print("converting rows and columns")
     rowAndColumn = theEvent[2]
     print(rowAndColumn)
-       # Getting the organization from the row and column tuple (r, c) from the first element
-    Organization = rowAndColumn[0]
+    if rowAndColumn[0] == -1:
+        Organization = 0
+    else:
+        Organization = rowAndColumn[0]
     print(Organization)
+       # Getting the organization from the row and column tuple (r, c) from the first element
        #return the organization
     return thePartners[Organization][0]
 ##########
@@ -82,7 +85,7 @@ window = sg.Window("Industry Partners", layout, size=(1000,420))#Window name, si
 while True:
     event, values = window.read()
     print(event, values)
-    if '-TABLE-' and '+CLICKED+' in event:
+    if ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
         getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation)
     elif event == sg.WIN_CLOSED:
         break
