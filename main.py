@@ -18,6 +18,22 @@ partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Aria
 
 #############
 
+##### METHOD FOR CLICKING ORGANIZATIONS ON TABLE########
+
+def getOrganizationFromClick(theEvent):
+   # If click is found inside event
+   if '+CLICKED+' in theEvent:
+       # Getting Row and Column from second tuple in event
+       rowAndColumn = theEvent[2]
+       
+
+       Organization = rowAndColumn[0]
+       return Organization
+
+
+
+#######
+
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
