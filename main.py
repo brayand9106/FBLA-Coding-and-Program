@@ -58,7 +58,9 @@ def getOrganizationPopup(theOrganization, informationList):
             print(informationList[i][1])
 
     layout = [[sg.Text(theOrganization, font=('Arial Bold', 20), justification='center', expand_x=True, size=(20, 1))],
-              [sg.Text(theInformation, font=('Arial', 15), expand_x=True, size=(40, 40), auto_size_text=False)]]
+              [sg.Text(theInformation, font=('Arial', 15), expand_x=True, size=(60, 10), auto_size_text=False)],
+              [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5)), sg.Push(), sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
+               ]
 
     window = sg.Window("Organization Information", layout, size=(800, 420))
     
