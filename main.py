@@ -98,7 +98,7 @@ window = sg.Window("Industry Partners", layout, size=(1000,420))#Window name, si
 while True:
     event, values = window.read()
     print(event, values)
-    if ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
+    if event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
         getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation, collectedInformation)
     elif event == sg.WIN_CLOSED:
         break
