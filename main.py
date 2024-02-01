@@ -12,6 +12,7 @@ buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
 ######## TABLE VALUES AND TABLE LAYOUT ##########
 partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
 ##### a static list of the partners
+global partnersLocked
 partnersLocked = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Intel Corporation', 'Semi-Conductor Chip Maker', 'intel.partner.marketing.studio@intel.com']
 
@@ -26,6 +27,8 @@ partnerInformation = [[[partnersLocked[0][0]],"Serving and partnering with Facul
                       
                       ]
 
+
+collectedInformation = []
 #############
 
 ##### METHOD FOR CLICKING ORGANIZATIONS ON TABLE########
@@ -47,26 +50,34 @@ def getOrganizationFromClick(theEvent, thePartners):
     return thePartners[Organization][0]
 ##########
 ##### GET POPUP METHOD FOR CLICKING ON ORGANIZATION #######
-def getOrganizationPopup(theOrganization, informationList):
-    theInformation = ""
-    for i in range(len(informationList)):
-        print('Hello' + str(i))
-        print(theOrganization)
-        if theOrganization == informationList[i][0][0]:
-            print(informationList[i][0])
-            theInformation = informationList[i][1]
-            print(informationList[i][1])
+def getOrganizationPopup(theOrganization, informationList, userCollection): #User Collection is the list to keep track of partners approved
+    theInformation = ""                                                     #informationList is for the information of organizations
+    for i in range(len(informationList)):                                  #Getting organization information with theOrganization to use for informationList
+        print('Hello' + str(i)) #Debugging
+        print(theOrganization) #Debug for our organization
+        if theOrganization == informationList[i][0][0]: #if the organization matches with the organization in the info list
+            print(informationList[i][0]) #Debug to show information
+            theInformation = informationList[i][1] # Packaging all the information from the list of organization
+            print(informationList[i][1]) #Debug Confirmation of the Information
 
+#Layout of the popup window for the organization
     layout = [[sg.Text(theOrganization, font=('Arial Bold', 20), justification='center', expand_x=True, size=(20, 1))],
               [sg.Text(theInformation, font=('Arial', 15), expand_x=True, size=(60, 10), auto_size_text=False)],
-              [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5)), sg.Push(), sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
+              [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='AddOrg'), sg.Push(), sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
                ]
-
+#Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
-    
+
+#While popup window is active    
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED:
+        print(event)
+        if event is not None and 'AddOrg' in event: #Check if "Add Organization button is clicked to append"
+            for i in range(len(partnersLocked)):
+                if theOrganization in partnersLocked[i] and not(partnersLocked[i] in userCollection):
+                    userCollection.append(partnersLocked[i])
+                    print(userCollection)
+        elif event == sg.WIN_CLOSED:
             break
     window.close()
 
@@ -88,7 +99,7 @@ while True:
     event, values = window.read()
     print(event, values)
     if ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
-        getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation)
+        getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation, collectedInformation)
     elif event == sg.WIN_CLOSED:
         break
 window.close()
