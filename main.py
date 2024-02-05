@@ -5,7 +5,7 @@ import pandas as pd
 
 sg.theme("DarkGrey4") #The theme of the window for the program
 #Menu dropdown from filter button
-menu_def = [['Filter', ['Alpha betical', 'Type of Organization', 'Date']]]
+menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']]]
 
 #Button File menu on topleft to make filter button for alphabetical
 buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
@@ -102,8 +102,8 @@ def ViewInformationWindow(allInformation):
 
 #WORK ON THIS
 ########################################## SAVE INFORMATION TO AN EXCEL #####################################
-# def saveToExcel(allInformation):
-    #p d.DataFrame.to_excel(excel_writer=(str(Path.home() / "Downloads")), sheet_name="Partnered Organizations"  ) 
+#def saveToExcel(allInformation):
+    #pd.DataFrame.to_excel(excel_writer=(str(Path.home() / "Downloads")), sheet_name="Partnered Organizations", header=partnerCategories, ) 
 
 
 ####### MAIN ########
