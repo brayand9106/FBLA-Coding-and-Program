@@ -1,9 +1,11 @@
 import PySimpleGUI as sg
 import os
+from pathlib import Path
+import pandas as pd
 
 sg.theme("DarkGrey4") #The theme of the window for the program
 #Menu dropdown from filter button
-menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']]]
+menu_def = [['Filter', ['Alpha betical', 'Type of Organization', 'Date']]]
 
 #Button File menu on topleft to make filter button for alphabetical
 buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
@@ -81,14 +83,35 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             break
     window.close()
 
+############################ VIEW INFORMATION WINDOW#############################
+def ViewInformationWindow(allInformation):
+    layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
+              [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
+              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
+    
+    window = sg.Window("Collected Partners", layout, size=(1000, 420))
+
+    while True:
+        event, values = window.read()
+        print(event, values)
+        if event == sg.WIN_CLOSED:
+            break
+    window.close()
+#################################################################################
 
 
-#######
+#WORK ON THIS
+########################################## SAVE INFORMATION TO AN EXCEL #####################################
+# def saveToExcel(allInformation):
+    #p d.DataFrame.to_excel(excel_writer=(str(Path.home() / "Downloads")), sheet_name="Partnered Organizations"  ) 
+
+
+####### MAIN ########
 
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
-          [sg.Menu(menu_def)], [partnerTable]
+          [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW')]
           ]
 
 #Initializing the Window
@@ -100,6 +123,8 @@ while True:
     print(event, values)
     if event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
         getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation, collectedInformation)
+    elif event is not None and ('VIEW' in event):
+        ViewInformationWindow(collectedInformation)
     elif event == sg.WIN_CLOSED:
         break
 window.close()
