@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import os
 from pathlib import Path
 import pandas as pd
+#Dependencies including openpyxl
 
 sg.theme("DarkGrey4") #The theme of the window for the program
 #Menu dropdown from filter button
@@ -83,6 +84,16 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             break
     window.close()
 
+#WORK ON THIS
+########################################## SAVE INFORMATION TO AN EXCEL #####################################
+def saveToExcel(allInformation):
+    List = pd.DataFrame(columns=partnerCategories, data=allInformation)
+    List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
+    print(List) 
+
+
+####### MAIN ########
+
 ############################ VIEW INFORMATION WINDOW#############################
 def ViewInformationWindow(allInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
@@ -96,18 +107,10 @@ def ViewInformationWindow(allInformation):
         print(event, values)
         if event == sg.WIN_CLOSED:
             break
+        elif event is not None and ('SAVTOEXCEL' in event):
+            saveToExcel(collectedInformation)
     window.close()
 #################################################################################
-
-
-#WORK ON THIS
-########################################## SAVE INFORMATION TO AN EXCEL #####################################
-#def saveToExcel(allInformation):
-    #pd.DataFrame.to_excel(excel_writer=(str(Path.home() / "Downloads")), sheet_name="Partnered Organizations", header=partnerCategories, ) 
-
-
-####### MAIN ########
-
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
