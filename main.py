@@ -87,9 +87,19 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 #WORK ON THIS
 ########################################## SAVE INFORMATION TO AN EXCEL #####################################
 def saveToExcel(allInformation):
+    writer = pd.ExcelWriter('PartnershipBackups.xlsx')
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
-    List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
-    print(List) 
+    List.to_excel(writer, sheet_name="Partnered Organizations")
+
+    #Auto expand column length of excel
+    for col in List:
+        col_length = max(List[col].astype(str).map(len).max(), len(col))
+        col_index = List.columns.get_loc(col)
+        writer.sheets['Partnered Organizations'].set_column(col_index, col_index, col_length)
+    
+    writer.save()
+    print(List)
+     
 
 
 ####### MAIN ########
