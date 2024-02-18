@@ -17,11 +17,11 @@ partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
 ##### a static list of the partners
 global partnersLocked
 partnersLocked = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
-            ['Intel Corporation', 'Semi-Conductor Chip Maker', 'intel.partner.marketing.studio@intel.com']
+            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com']
 
 ]
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
-            ['Intel Corporation', 'Semi-Conductor Chip Maker', 'intel.partner.marketing.studio@intel.com']
+            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com']
 
 ]
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
@@ -84,13 +84,54 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             break
     window.close()
 
-#WORK ON THIS
 ########################################## SAVE INFORMATION TO AN EXCEL #####################################
 def saveToExcel(allInformation):
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
     List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
     print(List) 
+########################################## UPDATE INFORMATION FROM FILTER #########################
+    
+def updateInformationFromFilter(filterKeyEvent, theTable):
+    #temporary table returned to update table values
+    newTable = []
+    #If the filter picked is alphabetical:
+    if filterKeyEvent == 'Alphabetical':
+        #Size of partners table to go through
+        for i in range(1, len(theTable)):
+            print(i)
+            #This checks whether first value compared to next value is bigger than other lexographically
+            if theTable[i-1][0] > theTable[i][0]:
+                newTable.insert(i, theTable[i-1])
+                newTable.insert(i-1, theTable[i])
+                print("first is bigger")
+            elif theTable[i-1][0] < theTable[i][0]:
+                print("second is bigger")
+                newTable.insert(i-1, theTable[i-1])
+                newTable.insert(i, theTable[i])
+            return newTable
+    #If filter picked is type of organization
+    elif filterKeyEvent == 'Type of Organization':
+        #Size of partners table to go through
+        for i in range(1, len(theTable)):
+            print(i)
+            #This checks whether first value compared to next value is bigger than other lexographically
+            if theTable[i-1][1] > theTable[i][1]:
+                newTable.insert(i, theTable[i-1])
+                newTable.insert(i-1, theTable[i])
+                print("first is bigger")
+            elif theTable[i-1][1] < theTable[i][1]:
+                print("second is bigger")
+                newTable.insert(i-1, theTable[i-1])
+                newTable.insert(i, theTable[i])
+        print(newTable)
+        return newTable
+    elif filterKeyEvent == 'Date':
+        #Date feature not implemented yet
+        sg.popup_cancel('Not implemented Yet', non_blocking=True,)
 
+
+
+    
 
 ####### MAIN ########
 
@@ -128,6 +169,8 @@ while True:
         getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation, collectedInformation)
     elif event is not None and ('VIEW' in event):
         ViewInformationWindow(collectedInformation)
+    elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event):
+        window['-TABLE-'].Update(values=(updateInformationFromFilter(event, partners)))
     elif event == sg.WIN_CLOSED:
         break
 window.close()
