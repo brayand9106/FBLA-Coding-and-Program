@@ -166,11 +166,14 @@ while True:
     event, values = window.read()
     print(event, values)
     if event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
-        getOrganizationPopup((getOrganizationFromClick(event, partnersLocked)), partnerInformation, collectedInformation)
+        getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation)
     elif event is not None and ('VIEW' in event):
         ViewInformationWindow(collectedInformation)
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event):
+        print(partners)
+        #bug of table becoming none
         window['-TABLE-'].Update(values=(updateInformationFromFilter(event, partners)))
+        partners = updateInformationFromFilter(event, partners)
     elif event == sg.WIN_CLOSED:
         break
 window.close()
