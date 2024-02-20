@@ -169,7 +169,7 @@ while True:
         getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation)
     elif event is not None and ('VIEW' in event):
         ViewInformationWindow(collectedInformation)
-    elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event):
+    elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         print(partners)
         #bug of table becoming none
         window['-TABLE-'].Update(values=(updateInformationFromFilter(event, partners)))
