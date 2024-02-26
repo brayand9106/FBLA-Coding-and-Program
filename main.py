@@ -17,10 +17,12 @@ partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
 ##### a static list of the partners
 global partnersLocked
 partnersLocked = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
+                  ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com']
 
 ]
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
+            ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com']
 
 ]
@@ -96,35 +98,46 @@ def updateInformationFromFilter(filterKeyEvent, theTable):
     newTable = []
     #If the filter picked is alphabetical:
     if filterKeyEvent == 'Alphabetical':
-        #Size of partners table to go through
-        for i in range(1, len(theTable)):
-            print(i)
-            #This checks whether first value compared to next value is bigger than other lexographically
-            if theTable[i-1][0] > theTable[i][0]:
-                newTable.insert(i, theTable[i-1])
-                newTable.insert(i-1, theTable[i])
-                print("first is bigger")
-            elif theTable[i-1][0] < theTable[i][0]:
-                print("second is bigger")
-                newTable.insert(i-1, theTable[i-1])
-                newTable.insert(i, theTable[i])
-            return newTable
-    #If filter picked is type of organization
-    elif filterKeyEvent == 'Type of Organization':
-        #Size of partners table to go through
-        for i in range(1, len(theTable)):
-            print(i)
-            #This checks whether first value compared to next value is bigger than other lexographically
-            if theTable[i-1][1] > theTable[i][1]:
-                newTable.insert(i, theTable[i-1])
-                newTable.insert(i-1, theTable[i])
-                print("first is bigger")
-            elif theTable[i-1][1] < theTable[i][1]:
-                print("second is bigger")
-                newTable.insert(i-1, theTable[i-1])
-                newTable.insert(i, theTable[i])
-        print(newTable)
+
+        #This checks whether first value compared to next value is bigger than other lexographically
+        newTable = sorted(theTable, key= lambda x: x[0])
         return newTable
+        #Size of partners table to go through
+            # for i in range(1, len(theTable)):
+            #     print(i)
+            #     #This checks whether first value compared to next value is bigger than other lexographically
+            #     if theTable[i-1][0] > theTable[i][0]:
+            #         if(theTable[i-1] in newTable):
+            #             newTable.remove(theTable[i-1])
+            #         newTable.insert(i, theTable[i-1])
+            #         newTable.insert(i-1, theTable[i])
+            #         print("first is bigger")
+            #     elif theTable[i-1][0] < theTable[i][0]:
+            #         print("second is bigger")
+            #         newTable.insert(i-1, theTable[i-1])
+            #         newTable.insert(i, theTable[i])
+            # return newTable
+        #If filter picked is type of organization
+    elif filterKeyEvent == 'Type of Organization':
+        #This checks whether first value compared to next value is bigger than other lexographically
+        newTable = sorted(theTable, key= lambda x: x[1])
+        return newTable
+        # #Size of partners table to go through
+            # for i in range(1, len(theTable)):
+            #     print(i)
+            #     #This checks whether first value compared to next value is bigger than other lexographically
+            #     if theTable[i-1][1] > theTable[i][1]:
+            #         newTable.insert(i, theTable[i-1])
+            #         newTable.insert(i-1, theTable[i])
+            #         print("first is bigger")
+            #     elif theTable[i-1][1] < theTable[i][1]:
+            #         print("second is bigger")
+            #         newTable.insert(i-1, theTable[i-1])
+            #         newTable.insert(i, theTable[i])
+            #     elif theTable[i-1][1] == theTable[i][1]:
+            #         newTable.insert(i-1, theTable[i])
+            # print(newTable)
+            # return newTable
     elif filterKeyEvent == 'Date':
         #Date feature not implemented yet
         sg.popup_cancel('Not implemented Yet', non_blocking=True,)
