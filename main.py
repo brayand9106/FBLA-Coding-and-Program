@@ -4,9 +4,9 @@ from pathlib import Path
 import pandas as pd
 #Dependencies including openpyxl
 
-sg.theme("Default") #The theme of the window for the program
+sg.theme("DefaultNoMoreNagging") #The theme of the window for the program
 #Menu dropdown from filter button
-menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']]]
+menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']], ['Help', ['FAQs']]]
 
 #Button File menu on topleft to make filter button for alphabetical
 buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
@@ -141,6 +141,10 @@ def updateInformationFromFilter(filterKeyEvent, theTable):
     elif filterKeyEvent == 'Date':
         #Date feature not implemented yet
         sg.popup_cancel('Not implemented Yet', non_blocking=True,)
+        return theTable
+    elif filterKeyEvent == 'FAQs':
+        sg.popup_cancel('Not implemented Yet', non_blocking=True,)
+        return theTable
 
 
 
@@ -184,7 +188,6 @@ while True:
         ViewInformationWindow(collectedInformation)
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         print(partners)
-        #bug of table becoming none
         window['-TABLE-'].Update(values=(updateInformationFromFilter(event, partners)))
         partners = updateInformationFromFilter(event, partners)
     elif event == sg.WIN_CLOSED:
