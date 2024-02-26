@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 #Dependencies including openpyxl
 
-sg.theme("DarkGrey4") #The theme of the window for the program
+sg.theme("Default") #The theme of the window for the program
 #Menu dropdown from filter button
 menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']]]
 
