@@ -36,7 +36,7 @@ partnerInformation = [[[partnersLocked[0][0]],"Serving and partnering with Facul
 collectedInformation = []
 #############
 
-##### METHOD FOR CLICKING ORGANIZATIONS ON TABLE########
+##### METHOD FOR CLICKING ORGANIZATIONS ON TABLE##########################################################################
 
 def getOrganizationFromClick(theEvent, thePartners):
    # If click is found inside event
@@ -54,7 +54,7 @@ def getOrganizationFromClick(theEvent, thePartners):
        #return the organization
     return thePartners[Organization][0]
 ##########
-##### GET POPUP METHOD FOR CLICKING ON ORGANIZATION #######
+##### GET POPUP METHOD FOR CLICKING ON ORGANIZATION #######################################################################
 def getOrganizationPopup(theOrganization, informationList, userCollection): #User Collection is the list to keep track of partners approved
     theInformation = ""                                                     #informationList is for the information of organizations
     for i in range(len(informationList)):                                  #Getting organization information with theOrganization to use for informationList
@@ -86,6 +86,32 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             break
     window.close()
 
+########################################## HELP WINDOW ######################################################
+def displayHelpWindow():
+    layout = [[sg.Text("Frequently Asked Questions:", font=('Arial Bold', 20), justification='center', expand_x=True, size=(20,1))],
+              [sg.Button('How do you find saved excel sheet of partners?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP1')],
+              [sg.VPush()],
+              [sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(20,5), button_color="Grey")]
+              
+              ]
+    
+    answers = [
+        ["To find your saved excel sheet, go to C:/Users/(YOUR USER)/PartnershipBackups.xlsx"]
+            ]
+    
+    window = sg.Window('FAQs', layout, size=(800, 800))
+
+    while True:
+        event, values = window.read()
+        print(event)
+        if event == 'Close':
+            break
+        elif event == sg.WIN_CLOSED:
+            break
+    window.close()
+
+
+
 ########################################## SAVE INFORMATION TO AN EXCEL #####################################
 def saveToExcel(allInformation):
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
@@ -93,7 +119,7 @@ def saveToExcel(allInformation):
     print(List) 
 ########################################## UPDATE INFORMATION FROM FILTER #########################
     
-def updateInformationFromFilter(filterKeyEvent, theTable):
+def updateInformationFromMenu(filterKeyEvent, theTable):
     #temporary table returned to update table values
     newTable = []
     #If the filter picked is alphabetical:
@@ -143,7 +169,7 @@ def updateInformationFromFilter(filterKeyEvent, theTable):
         sg.popup_cancel('Not implemented Yet', non_blocking=True,)
         return theTable
     elif filterKeyEvent == 'FAQs':
-        sg.popup_cancel('Not implemented Yet', non_blocking=True,)
+        displayHelpWindow()
         return theTable
 
 
@@ -188,8 +214,8 @@ while True:
         ViewInformationWindow(collectedInformation)
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         print(partners)
-        window['-TABLE-'].Update(values=(updateInformationFromFilter(event, partners)))
-        partners = updateInformationFromFilter(event, partners)
+        window['-TABLE-'].Update(values=(updateInformationFromMenu(event, partners)))
+        partners = updateInformationFromMenu(event, partners)
     elif event == sg.WIN_CLOSED:
         break
 window.close()
