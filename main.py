@@ -68,7 +68,7 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 #Layout of the popup window for the organization
     layout = [[sg.Text(theOrganization, font=('Arial Bold', 20), justification='center', expand_x=True, size=(20, 1))],
               [sg.Text(theInformation, font=('Arial', 15), expand_x=True, size=(60, 10), auto_size_text=False)],
-              [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='AddOrg'), sg.Push(), sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
+              [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='AddOrg'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
                ]
 #Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
@@ -88,27 +88,30 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 
 ########################################## HELP WINDOW ######################################################
 def displayHelpWindow():
-    layout = [[sg.Text("Frequently Asked Questions:", font=('Arial Bold', 20), justification='center', expand_x=True, size=(20,1))],
-              [sg.Button('How do you find saved excel sheet of partners?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP1')],
-              [sg.VPush()],
-              [sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(20,5), button_color="Grey")]
-              
-              ]
-    
+
     answers = [
         ["To find your saved excel sheet, go to C:/Users/(YOUR USER)/PartnershipBackups.xlsx"]
             ]
+    
+    layout = [[sg.Text("Frequently Asked Questions:", font=('Arial Bold', 20), justification='center', expand_x=True, size=(20,1))],
+              [sg.Button('How do you find saved excel sheet of partners?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP1')],
+               [sg.pin(sg.Text(answers[0][0], justification='left', key='-1-', visible=False, font=('Arial', 12)))],
+              [sg.VPush()],
+              [sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 10), size=(20,5), button_color="Grey")],
+              
+              ]
     
     window = sg.Window('FAQs', layout, size=(800, 800))
 
     while True:
         event, values = window.read()
-        print(event)
-        if event == 'Close':
-            break
+        print(event, values)
+        if event is not None and event == 'HELP1':
+            window['-1-'].Update(visible=True)
         elif event == sg.WIN_CLOSED:
             break
     window.close()
+    return partners
 
 
 
@@ -168,9 +171,6 @@ def updateInformationFromMenu(filterKeyEvent, theTable):
         #Date feature not implemented yet
         sg.popup_cancel('Not implemented Yet', non_blocking=True,)
         return theTable
-    elif filterKeyEvent == 'FAQs':
-        displayHelpWindow()
-        return theTable
 
 
 
@@ -182,7 +182,7 @@ def updateInformationFromMenu(filterKeyEvent, theTable):
 def ViewInformationWindow(allInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
-              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Close', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
+              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
     
     window = sg.Window("Collected Partners", layout, size=(1000, 420))
 
@@ -213,7 +213,9 @@ while True:
     elif event is not None and ('VIEW' in event):
         ViewInformationWindow(collectedInformation)
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
-        print(partners)
+        if event is not None and event == 'FAQs':
+            displayHelpWindow()
+            print(partners)
         window['-TABLE-'].Update(values=(updateInformationFromMenu(event, partners)))
         partners = updateInformationFromMenu(event, partners)
     elif event == sg.WIN_CLOSED:
