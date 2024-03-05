@@ -216,8 +216,9 @@ while True:
         if event is not None and event == 'FAQs':
             displayHelpWindow()
             print(partners)
-        window['-TABLE-'].Update(values=(updateInformationFromMenu(event, partners)))
-        partners = updateInformationFromMenu(event, partners)
+        else:
+            window['-TABLE-'].Update(values=(updateInformationFromMenu(event, partners)))
+            partners = updateInformationFromMenu(event, partners)
     elif event == sg.WIN_CLOSED:
         break
 window.close()
