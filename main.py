@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 import pandas as pd
 #Dependencies including openpyxl
-
 sg.theme("DefaultNoMoreNagging") #The theme of the window for the program
 #Menu dropdown from filter button
 menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']], ['Help', ['FAQs']]]
@@ -42,23 +41,24 @@ def getOrganizationFromClick(theEvent, thePartners):
    # If click is found inside event
    #if theEvent == ('-TABLE-', '+CLICKED+', (tuple)):
        # Getting Row and Column from second tuple in event
-    print("converting rows and columns")
+    print("Compiling Organization rows and columns...")
     rowAndColumn = theEvent[2]
     print(rowAndColumn)
     if rowAndColumn[0] == -1:
         Organization = 0
     else:
         Organization = rowAndColumn[0]
-    print(Organization)
+    print("Organization Compiled from Click!")
        # Getting the organization from the row and column tuple (r, c) from the first element
        #return the organization
     return thePartners[Organization][0]
 ##########
 ##### GET POPUP METHOD FOR CLICKING ON ORGANIZATION #######################################################################
 def getOrganizationPopup(theOrganization, informationList, userCollection): #User Collection is the list to keep track of partners approved
+    print(f"Displaying {theOrganization} Window...")
     theInformation = ""                                                     #informationList is for the information of organizations
     for i in range(len(informationList)):                                  #Getting organization information with theOrganization to use for informationList
-        print('Hello' + str(i)) #Debugging
+        print(f"Traversing List of Information \n Traversing Index {i}") #Debugging
         print(theOrganization) #Debug for our organization
         if theOrganization == informationList[i][0][0]: #if the organization matches with the organization in the info list
             print(informationList[i][0]) #Debug to show information
@@ -72,8 +72,8 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
                ]
 #Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
-
-#While popup window is active    
+#While popup window is active
+    print(f"{theOrganization} window is displayed!")    
     while True:
         event, values = window.read()
         print(event)
@@ -103,6 +103,7 @@ def displayHelpWindow():
     
     window = sg.Window('FAQs', layout, size=(800, 800))
 
+    print("Displaying Help(FAQs) Window!")
     while True:
         event, values = window.read()
         print(event, values)
