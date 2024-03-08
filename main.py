@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import os
 from pathlib import Path
 import pandas as pd
+
 #Dependencies including openpyxl
 sg.theme("DefaultNoMoreNagging") #The theme of the window for the program
 #Menu dropdown from filter button
@@ -183,15 +184,30 @@ def updateInformationFromMenu(filterKeyEvent, theTable):
 def ViewInformationWindow(allInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
-              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
+              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
+              [sg.Button("Remove Org", font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key=('REMOVEORG'))]]
     
     window = sg.Window("Collected Partners", layout, size=(1000, 420))
 
+
+
+
+### WORK ON THIS #####################
     while True:
         event, values = window.read()
         print(event, values)
         if event == sg.WIN_CLOSED:
             break
+        #elif event is not None and ('-VIEWTABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
+            #print('viewtableisclicked!')
+            #deleteOrg = getOrganizationFromClick(event, collectedInformation)
+            #while True:
+                #print("in while loop")
+                #if event is not None and ('REMOVEORG' in event):
+                   #print('executing remove org')
+                    #collectedInformation.remove(deleteOrg)
+                    #window['-VIEWTABLE-'].Update(values=collectedInformation)
+                    #break
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
     window.close()
