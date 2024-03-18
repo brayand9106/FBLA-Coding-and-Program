@@ -198,6 +198,10 @@ def ViewInformationWindow(allInformation):
         print(event, values)
         if event == sg.WIN_CLOSED:
             break
+        elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
+            sg.popup_yes_no("Would you like to remove " + getOrganizationFromClick(event, partners) + "?")
+            if(sg.popup_yes_no("Would you like to remove " + getOrganizationFromClick(event, partners) + "?") == "Yes"):
+                print((getOrganizationFromClick(event, partners)) + " removed!")
         #elif event is not None and ('-VIEWTABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
             #print('viewtableisclicked!')
             #deleteOrg = getOrganizationFromClick(event, collectedInformation)
