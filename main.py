@@ -75,12 +75,15 @@ def getOrganizationFromClick(theEvent, thePartners):
     rowAndColumn = theEvent[2]
     print(rowAndColumn)
     if rowAndColumn[0] == -1:
+        print("Pick 0th Organization")
         Organization = 0
     else:
         Organization = rowAndColumn[0]
+        print("Organization: " + str(Organization))
     print("Organization Compiled from Click!")
        # Getting the organization from the row and column tuple (r, c) from the first element
        #return the organization
+    print(thePartners[Organization][0])
     return thePartners[Organization][0]
 ##########
 
@@ -126,12 +129,15 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 def displayHelpWindow():
 
     answers = [
-        ["To find your saved excel sheet, go to C:/Users/(YOUR USER)/PartnershipBackups.xlsx"]
+        ["To find your saved excel sheet, go to C:/Users/(YOUR USER)/PartnershipBackups.xlsx"],
+        ["To remove an organization added, simply go to the \"View Added Information\" and click on the table for any \n organization to get prompted on removing one"]
             ]
     
     layout = [[sg.Text("Frequently Asked Questions:", font=('Arial Bold', 20), justification='center', expand_x=True, size=(20,1))],
               [sg.Button('How do you find saved excel sheet of partners?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP1')],
                [sg.pin(sg.Text(answers[0][0], justification='left', key='-1-', visible=False, font=('Arial', 12)))],
+               [sg.Button('How do you remove added Organizations?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP2')],
+               [sg.pin(sg.Text(answers[1][0], justification='left', key='-2-', visible=False, font=('Arial', 12)))],
               [sg.VPush()],
               [sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 10), size=(20,5), button_color="Grey")],
               
@@ -145,6 +151,8 @@ def displayHelpWindow():
         print(event, values)
         if event is not None and event == 'HELP1':
             window['-1-'].Update(visible=True)
+        elif event is not None and event == 'HELP2':
+            window['-2-'].Update(visible=True)
         elif event == sg.WIN_CLOSED:
             break
     window.close()
@@ -232,7 +240,7 @@ def ViewInformationWindow(allInformation):
         if event == sg.WIN_CLOSED:
             break
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
-            theOrg = getOrganizationFromClick(event, partners)
+            theOrg = getOrganizationFromClick(event, collectedInformation)
             print(theOrg)
             print(collectedInformation)
             the_popup = sg.popup_yes_no("Would you like to remove " + theOrg + "?")
