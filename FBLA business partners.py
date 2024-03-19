@@ -8,4 +8,18 @@ partners = [['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.co
             ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
             ['IMA', 'Business and Finance', 'ima@imanet.org'], 
             ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
-            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']], 
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com'],
+
+            ['Eagle University', 'Education', 'taylor@eagleuniversity.org '],
+            ['iD Tech', 'Education', 'hello@iDTech.com'],
+            ['NTHS', 'Education', 'info@nths.org'],
+            ['Beta Camp', 'Education', 'hello@beta.camp'],
+            ['CareerSafe', 'Business', 'support@careersafeonline.com'],
+            ['City Pop', 'Community', 'taylor@citypopdenver.com'],
+            ['fund2orgs', 'Community', 'asap@funds2orgs.com'],
+            ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
+            ['NSHSS', 'Education', 'information@nshss.org'],
+            ['SCAD', 'Education', 'techsupport@scad.edu'],
+            ['Meta', 'Education', 'info@meta.edu.np']] 
+
+            
