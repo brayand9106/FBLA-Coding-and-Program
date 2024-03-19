@@ -18,12 +18,34 @@ partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
 global partnersLocked
 partnersLocked = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
                   ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
-            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com']
+            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
+            ['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.com'], 
+            ['Amazon', 'Merchant', 'amazonbusinesscs@amazon.com'], 
+            ['Geico', 'Financial Insurance', 'ERSPS@geico.com'], 
+            ['BusinessU', 'Business and Finance', 'support@businessu.org'], 
+            ['Equidi', 'Education', 'legal@equidi.com.'], 
+            ['FICO', 'Business and Finance', 'scoresupport@fico.com'],
+            ['Hyatt Hotels', 'Business', 'consumeraffairs@hyatt.com'], 
+            ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
+            ['IMA', 'Business and Finance', 'ima@imanet.org'], 
+            ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']
 
 ]
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
-            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com']
+            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
+            ['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.com'], 
+            ['Amazon', 'Merchant', 'amazonbusinesscs@amazon.com'], 
+            ['Geico', 'Financial Insurance', 'ERSPS@geico.com'], 
+            ['BusinessU', 'Business and Finance', 'support@businessu.org'], 
+            ['Equidi', 'Education', 'legal@equidi.com.'], 
+            ['FICO', 'Business and Finance', 'scoresupport@fico.com'],
+            ['Hyatt Hotels', 'Business', 'consumeraffairs@hyatt.com'], 
+            ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
+            ['IMA', 'Business and Finance', 'ima@imanet.org'], 
+            ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']
 
 ]
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
@@ -34,10 +56,17 @@ partnerInformation = [[[partnersLocked[0][0]],"Serving and partnering with Facul
 
 
 collectedInformation = []
-#############
+########################################## SEARCH THROUGH LIST FOR ORGANIZATION #####################################
+def searchList(theList, item):
+    for i in range(len(theList)):
+        if(theList[i][0].find(item) != -1):
+            print(theList[i][0].find(item))
+            return i
+
 
 ##### METHOD FOR CLICKING ORGANIZATIONS ON TABLE##########################################################################
 
+################### CHECK HERE
 def getOrganizationFromClick(theEvent, thePartners):
    # If click is found inside event
    #if theEvent == ('-TABLE-', '+CLICKED+', (tuple)):
@@ -54,6 +83,8 @@ def getOrganizationFromClick(theEvent, thePartners):
        #return the organization
     return thePartners[Organization][0]
 ##########
+
+
 ##### GET POPUP METHOD FOR CLICKING ON ORGANIZATION #######################################################################
 def getOrganizationPopup(theOrganization, informationList, userCollection): #User Collection is the list to keep track of partners approved
     print(f"Displaying {theOrganization} Window...")
@@ -66,11 +97,15 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             theInformation = informationList[i][1] # Packaging all the information from the list of organization
             print(informationList[i][1]) #Debug Confirmation of the Information
 
+
+
 #Layout of the popup window for the organization
     layout = [[sg.Text(theOrganization, font=('Arial Bold', 20), justification='center', expand_x=True, size=(20, 1))],
               [sg.Text(theInformation, font=('Arial', 15), expand_x=True, size=(60, 10), auto_size_text=False)],
               [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='AddOrg'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
                ]
+    
+
 #Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
 #While popup window is active
@@ -184,34 +219,30 @@ def updateInformationFromMenu(filterKeyEvent, theTable):
 def ViewInformationWindow(allInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
-              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
-              [sg.Button("Remove Org", font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key=('REMOVEORG'))]]
+              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
     
     window = sg.Window("Collected Partners", layout, size=(1000, 420))
 
 
 
 
-### WORK ON THIS #####################
     while True:
         event, values = window.read()
         print(event, values)
         if event == sg.WIN_CLOSED:
             break
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
-            sg.popup_yes_no("Would you like to remove " + getOrganizationFromClick(event, partners) + "?")
-            if(sg.popup_yes_no("Would you like to remove " + getOrganizationFromClick(event, partners) + "?") == "Yes"):
-                print((getOrganizationFromClick(event, partners)) + " removed!")
-        #elif event is not None and ('-VIEWTABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
-            #print('viewtableisclicked!')
-            #deleteOrg = getOrganizationFromClick(event, collectedInformation)
-            #while True:
-                #print("in while loop")
-                #if event is not None and ('REMOVEORG' in event):
-                   #print('executing remove org')
-                    #collectedInformation.remove(deleteOrg)
-                    #window['-VIEWTABLE-'].Update(values=collectedInformation)
-                    #break
+            theOrg = getOrganizationFromClick(event, partners)
+            print(theOrg)
+            print(collectedInformation)
+            the_popup = sg.popup_yes_no("Would you like to remove " + theOrg + "?")
+            if(the_popup == "Yes"):
+                print(theOrg + " removed!")
+                orgIndex = searchList(collectedInformation, theOrg)
+                print(orgIndex)
+                collectedInformation.pop(orgIndex)
+                window['VIEWTABLE'].Update(values=(collectedInformation))
+                #collectedInformation.remove(orgIndex)
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
     window.close()
