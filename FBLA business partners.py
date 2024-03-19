@@ -22,4 +22,8 @@ partners = [['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.co
             ['SCAD', 'Education', 'techsupport@scad.edu'],
             ['Meta', 'Education', 'info@meta.edu.np']] 
 
+
+['Meta', 'Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility']
+['SCAD', 'Bringing students from more than 100 countries with over 100 academic degree programs. Internships, certifications, and collaborative projects are all involved in the SCAD curriculum']
+['NSHSS', '']
             
