@@ -1,0 +1,11 @@
+partners = [['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.com'], 
+            ['Amazon', 'Merchant', 'amazonbusinesscs@amazon.com'], 
+            ['Geico', 'Financial Insurance', 'ERSPS@geico.com'], 
+            ['BusinessU', 'Business and Finance', 'support@businessu.org'], 
+            ['Equidi', 'Education', 'legal@equidi.com.'], 
+            ['FICO', 'Business and Finance', 'scoresupport@fico.com']
+            ['Hyatt Hotels', 'Business', 'consumeraffairs@hyatt.com'], 
+            ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
+            ['IMA', 'Business and Finance', 'ima@imanet.org'], 
+            ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']], 
