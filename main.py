@@ -29,9 +29,20 @@ partnersLocked = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering Scho
             ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
             ['IMA', 'Business and Finance', 'ima@imanet.org'], 
             ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
-            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com'],
+            ['Eagle University', 'Education', 'taylor@eagleuniversity.org '],
+            ['iD Tech', 'Education', 'hello@iDTech.com'],
+            ['NTHS', 'Education', 'info@nths.org'],
+            ['Beta Camp', 'Education', 'hello@beta.camp'],
+            ['CareerSafe', 'Business', 'support@careersafeonline.com'],
+            ['City Pop', 'Community', 'taylor@citypopdenver.com'],
+            ['fund2orgs', 'Community', 'asap@funds2orgs.com'],
+            ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
+            ['NSHSS', 'Education', 'information@nshss.org'],
+            ['SCAD', 'Education', 'techsupport@scad.edu'],
+            ['Meta', 'Education', 'info@meta.edu.np']] 
 
-]
+
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
@@ -45,9 +56,19 @@ partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', '
             ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
             ['IMA', 'Business and Finance', 'ima@imanet.org'], 
             ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
-            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com'],
+            ['Eagle University', 'Education', 'taylor@eagleuniversity.org '],
+            ['iD Tech', 'Education', 'hello@iDTech.com'],
+            ['NTHS', 'Education', 'info@nths.org'],
+            ['Beta Camp', 'Education', 'hello@beta.camp'],
+            ['CareerSafe', 'Business', 'support@careersafeonline.com'],
+            ['City Pop', 'Community', 'taylor@citypopdenver.com'],
+            ['fund2orgs', 'Community', 'asap@funds2orgs.com'],
+            ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
+            ['NSHSS', 'Education', 'information@nshss.org'],
+            ['SCAD', 'Education', 'techsupport@scad.edu'],
+            ['Meta', 'Education', 'info@meta.edu.np']] 
 
-]
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
 
 partnerInformation = [[[partnersLocked[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."]
@@ -258,8 +279,7 @@ def ViewInformationWindow(allInformation):
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
-          [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW')]
-          ]
+        [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW'), sg.Push(), sg.Button("Exit", auto_size_button=False, size=(15,2), key='EXIT')],]
 
 #Initializing the Window
 window = sg.Window("Industry Partners", layout, size=(1000,420))#Window name, size, and layout
@@ -272,6 +292,8 @@ while True:
         getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation)
     elif event is not None and ('VIEW' in event):
         ViewInformationWindow(collectedInformation)
+    elif event is not None and event == 'EXIT':
+        break
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         if event is not None and event == 'FAQs':
             displayHelpWindow()
