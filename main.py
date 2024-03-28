@@ -94,12 +94,10 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
     theInformation = ""                                                     #informationList is for the information of organizations
     for i in range(len(informationList)):                                  #Getting organization information with theOrganization to use for informationList
         print(f"Traversing List of Information \n Traversing Index {i}") #Debugging
-        print(theOrganization) #Debug for our organization
+        print("The selected Organization is " + str(theOrganization)) #Debug for our organization
         if theOrganization == informationList[i][0][0]: #if the organization matches with the organization in the info list
-            print(informationList[i][0]) #Debug to show information
+            print("The selected organization is " + str(informationList[i][0]) + " compiled information about them is: " + str(informationList[i][1])) #Debug to confirm information
             theInformation = informationList[i][1] # Packaging all the information from the list of organization
-            print(informationList[i][1]) #Debug Confirmation of the Information
-
 
 
 #Layout of the popup window for the organization
@@ -112,15 +110,15 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 #Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
 #While popup window is active
-    print(f"{theOrganization} window is displayed!")    
+    print(f"{theOrganization} window is being displayed!")  
     while True:
         event, values = window.read()
-        print(event)
+        print("The user has selected: " + str(event))
         if event is not None and 'AddOrg' in event: #Check if "Add Organization button is clicked to append"
             for i in range(len(partnersLocked)):
                 if theOrganization in partnersLocked[i] and not(partnersLocked[i] in userCollection):
                     userCollection.append(partnersLocked[i])
-                    print(userCollection)
+                    print("The user selected organizations are: " + str(userCollection))
         elif event == sg.WIN_CLOSED:
             break
     window.close()
@@ -148,7 +146,7 @@ def displayHelpWindow():
     print("Displaying Help(FAQs) Window!")
     while True:
         event, values = window.read()
-        print(event, values)
+        print("The user has selected " + str(event) + " in the faq window.")
         if event is not None and event == 'HELP1':
             window['-1-'].Update(visible=True)
         elif event is not None and event == 'HELP2':
@@ -236,7 +234,7 @@ def ViewInformationWindow(allInformation):
 
     while True:
         event, values = window.read()
-        print(event, values)
+        print("The user has selected " + str(event) + " with " + str(values) + " in the information window.")
         if event == sg.WIN_CLOSED:
             break
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
@@ -264,10 +262,10 @@ layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center
 #Initializing the Window
 window = sg.Window("Industry Partners", layout, size=(1000,420))#Window name, size, and layout
 
-#Loop of executing the window
+#Loop of executing the primary window
 while True:
     event, values = window.read()
-    print(event, values)
+    print("The user has selected " + str(event) + " with " + str(values) + " in the primary window.")
     if event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
         getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation)
     elif event is not None and ('VIEW' in event):
@@ -275,7 +273,6 @@ while True:
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         if event is not None and event == 'FAQs':
             displayHelpWindow()
-            print(partners)
         else:
             window['-TABLE-'].Update(values=(updateInformationFromMenu(event, partners)))
             partners = updateInformationFromMenu(event, partners)
