@@ -73,17 +73,17 @@ def getOrganizationFromClick(theEvent, thePartners):
        # Getting Row and Column from second tuple in event
     print("Compiling Organization rows and columns...")
     rowAndColumn = theEvent[2]
-    print(rowAndColumn)
+    print("Selected cell is " + str(rowAndColumn))
     if rowAndColumn[0] == -1:
-        print("Pick 0th Organization")
+        print("Override selection of headings by selecting first avaiable organization.")
         Organization = 0
     else:
         Organization = rowAndColumn[0]
-        print("Organization: " + str(Organization))
+        print("Selected Organization postition in partners is " + str(Organization))
     print("Organization Compiled from Click!")
        # Getting the organization from the row and column tuple (r, c) from the first element
        #return the organization
-    print(thePartners[Organization][0])
+    print("The first selected partner is " + thePartners[Organization][0])
     return thePartners[Organization][0]
 ##########
 
