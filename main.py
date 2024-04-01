@@ -15,23 +15,6 @@ buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
 ######## TABLE VALUES AND TABLE LAYOUT ##########
 partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
 ##### a static list of the partners
-global partnersLocked
-partnersLocked = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
-                  ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
-            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
-            ['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.com'], 
-            ['Amazon', 'Merchant', 'amazonbusinesscs@amazon.com'], 
-            ['Geico', 'Financial Insurance', 'ERSPS@geico.com'], 
-            ['BusinessU', 'Business and Finance', 'support@businessu.org'], 
-            ['Equidi', 'Education', 'legal@equidi.com.'], 
-            ['FICO', 'Business and Finance', 'scoresupport@fico.com'],
-            ['Hyatt Hotels', 'Business', 'consumeraffairs@hyatt.com'], 
-            ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
-            ['IMA', 'Business and Finance', 'ima@imanet.org'], 
-            ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
-            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']
-
-]
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
@@ -45,12 +28,24 @@ partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', '
             ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
             ['IMA', 'Business and Finance', 'ima@imanet.org'], 
             ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
-            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com']
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com'],
+            ['Eagle University', 'Education', 'taylor@eagleuniversity.org '],
+            ['iD Tech', 'Education', 'hello@iDTech.com'],
+            ['National Technical Honor Society', 'Education', 'info@nths.org'],
+            ['Beta Camp', 'Education', 'hello@beta.camp'],
+            ['CareerSafe', 'Business', 'support@careersafeonline.com'],
+            ['City Pop', 'Community', 'taylor@citypopdenver.com'],
+            ['fund2orgs', 'Community', 'asap@funds2orgs.com'],
+            ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
+            ['SCAD', 'Education', 'techsupport@scad.edu'],
+            ['Meta', 'Education', 'info@meta.edu.np'],
+            ['Accountant of International Certified Professional Accountants', 'Education', 'startheregoplaces@aicpa.org']
 
 ]
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
 
-partnerInformation = [[[partnersLocked[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."]
+partnerInformation = [[[partners[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."], 
+                      [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"]
                       
                       ]
 
@@ -117,10 +112,10 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
         event, values = window.read()
         print(event)
         if event is not None and 'AddOrg' in event: #Check if "Add Organization button is clicked to append"
-            for i in range(len(partnersLocked)):
-                if theOrganization in partnersLocked[i] and not(partnersLocked[i] in userCollection):
-                    userCollection.append(partnersLocked[i])
-                    sg.popup_ok(partnersLocked[i][0] + " has been added!\n Go to \"View Added Information\" to view it!", non_blocking=True)
+            for i in range(len(partners)):
+                if theOrganization in partners[i] and not(partners[i] in userCollection):
+                    userCollection.append(partners[i])
+                    sg.popup_ok(partners[i][0] + " has been added!\n Go to \"View Added Information\" to view it!", non_blocking=True)
                     print(userCollection)
         elif event == sg.WIN_CLOSED:
             break
