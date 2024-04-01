@@ -6,7 +6,7 @@ import pandas as pd
 #Dependencies including openpyxl
 sg.theme("DefaultNoMoreNagging") #The theme of the window for the program
 #Menu dropdown from filter button
-menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Date']], ['Help', ['FAQs']]]
+menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Show Not Added']], ['Help', ['FAQs']]]
 
 #Button File menu on topleft to make filter button for alphabetical
 buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
@@ -16,6 +16,34 @@ buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
 partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
 ##### a static list of the partners
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
+            ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
+            ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
+            ['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.com'], 
+            ['Amazon', 'Merchant', 'amazonbusinesscs@amazon.com'], 
+            ['Geico', 'Financial Insurance', 'ERSPS@geico.com'], 
+            ['BusinessU', 'Business and Finance', 'support@businessu.org'], 
+            ['Equidi', 'Education', 'legal@equidi.com.'], 
+            ['FICO', 'Business and Finance', 'scoresupport@fico.com'],
+            ['Hyatt Hotels', 'Business', 'consumeraffairs@hyatt.com'], 
+            ['Juno', 'Business and Finance', 'hello@joinjuno.com'], 
+            ['IMA', 'Business and Finance', 'ima@imanet.org'], 
+            ['RUBIN', 'Business and Finance', 'chelsea@rubineducation.com'], 
+            ['Knowledge Matters', 'Education', 'VBCCentral@KnowledgeMatters.com'],
+            ['Eagle University', 'Education', 'taylor@eagleuniversity.org '],
+            ['iD Tech', 'Education', 'hello@iDTech.com'],
+            ['National Technical Honor Society', 'Education', 'info@nths.org'],
+            ['Beta Camp', 'Education', 'hello@beta.camp'],
+            ['CareerSafe', 'Business', 'support@careersafeonline.com'],
+            ['City Pop', 'Community', 'taylor@citypopdenver.com'],
+            ['fund2orgs', 'Community', 'asap@funds2orgs.com'],
+            ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
+            ['SCAD', 'Education', 'techsupport@scad.edu'],
+            ['Meta', 'Education', 'info@meta.edu.np'],
+            ['Accountant of International Certified Professional Accountants', 'Education', 'startheregoplaces@aicpa.org']
+
+]
+
+duplicatePartners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
             ['Advance Micro Devices', 'Semi-Conductor Chip Makers', 'info@amd.com'], 
@@ -163,7 +191,7 @@ def saveToExcel(allInformation):
     print(List) 
 ########################################## UPDATE INFORMATION FROM FILTER #########################
     
-def updateInformationFromMenu(filterKeyEvent, theTable):
+def updateInformationFromMenu(filterKeyEvent, theTable, acquiredInformation):
     #temporary table returned to update table values
     newTable = []
     #If the filter picked is alphabetical:
@@ -208,10 +236,15 @@ def updateInformationFromMenu(filterKeyEvent, theTable):
             #         newTable.insert(i-1, theTable[i])
             # print(newTable)
             # return newTable
-    elif filterKeyEvent == 'Date':
+    elif filterKeyEvent == 'Show Not Added':
         #Date feature not implemented yet
-        sg.popup_cancel('Not implemented Yet', non_blocking=True,)
-        return theTable
+        #sg.popup_cancel('Not implemented Yet', non_blocking=True,)
+        #return theTable
+        sortedTable = []
+        for i in range(len(theTable)):
+            if not(theTable[i] in acquiredInformation):
+                sortedTable.append(theTable[i])
+        return sortedTable
 
 
 
@@ -271,10 +304,19 @@ while True:
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         if event is not None and event == 'FAQs':
             displayHelpWindow()
-            print(partners)
         else:
-            window['-TABLE-'].Update(values=(updateInformationFromMenu(event, partners)))
-            partners = updateInformationFromMenu(event, partners)
+            #This checks for event "Show Not Added" inside of filter
+            if event == "Show Not Added":
+                #Partners is updated and table with not added organizations
+                partners = updateInformationFromMenu(event, partners, collectedInformation)
+                window['-TABLE-'].Update(partners)
+            #This checks for events other than "Show Not Added" inside of filter
+            else:
+                #Pulls partners from duplicatePartners to reverse possible deletion through "Show Not Added"
+                partners = duplicatePartners
+                #Partners is update and table with appropiate filter ("Alphabetical" or "type of organization")
+                partners = updateInformationFromMenu(event, partners, collectedInformation)
+                window['-TABLE-'].Update(values=(partners))
     elif event == sg.WIN_CLOSED:
         break
 window.close()
