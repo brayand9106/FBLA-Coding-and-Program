@@ -120,6 +120,7 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             for i in range(len(partnersLocked)):
                 if theOrganization in partnersLocked[i] and not(partnersLocked[i] in userCollection):
                     userCollection.append(partnersLocked[i])
+                    sg.popup_ok(partnersLocked[i][0] + " has been added!\n Go to \"View Added Information\" to view it!", non_blocking=True)
                     print(userCollection)
         elif event == sg.WIN_CLOSED:
             break
