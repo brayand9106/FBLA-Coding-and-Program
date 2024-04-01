@@ -154,7 +154,8 @@ def displayHelpWindow():
 
     answers = [
         ["To find your saved excel sheet, go to C:/Users/(YOUR USER)/PartnershipBackups.xlsx"],
-        ["To remove an organization added, simply go to the \"View Added Information\" and click on the table for any \n organization to get prompted on removing one"]
+        ["To remove an organization added, simply go to the \"View Added Information\" and click on the table for any \n organization to get prompted on removing one"],
+        ["To fix cell sizes in excel, open the excel sheet file and follow these steps:\n 1. Drag over each cell in excel containing the information\n 2. Make sure excel menu is on \"home\" and look for \"cells\" then click format\n 3. Look for \"Cell Size\" and click \"AutoFit Column Width\""]
             ]
     
     layout = [[sg.Text("Frequently Asked Questions:", font=('Arial Bold', 20), justification='center', expand_x=True, size=(20,1))],
@@ -162,12 +163,14 @@ def displayHelpWindow():
                [sg.pin(sg.Text(answers[0][0], justification='left', key='-1-', visible=False, font=('Arial', 12)))],
                [sg.Button('How do you remove added Organizations?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP2')],
                [sg.pin(sg.Text(answers[1][0], justification='left', key='-2-', visible=False, font=('Arial', 12)))],
+               [sg.Button('How do you fix cell sizes in excel?', font=('Arial Bold', 10), auto_size_button=False, size=(60, 5), key='HELP3')],
+               [sg.pin(sg.Text(answers[2][0], justification='left', key='-3-', visible=False, font=('Arial', 12)))],
               [sg.VPush()],
               [sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 10), size=(20,5), button_color="Grey")],
               
               ]
     
-    window = sg.Window('FAQs', layout, size=(800, 800))
+    window = sg.Window('FAQs', layout, size=(800, 600))
 
     print("Displaying Help(FAQs) Window!")
     while True:
@@ -177,6 +180,8 @@ def displayHelpWindow():
             window['-1-'].Update(visible=True)
         elif event is not None and event == 'HELP2':
             window['-2-'].Update(visible=True)
+        elif event is not None and event == 'HELP3':
+            window['-3-'].Update(visible=True)
         elif event == sg.WIN_CLOSED:
             break
     window.close()
