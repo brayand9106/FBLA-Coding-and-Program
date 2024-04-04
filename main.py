@@ -292,7 +292,7 @@ def ViewInformationWindow(allInformation):
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
-          [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW')]
+          [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW'), sg.Push(), sg.CButton("Exit", font=('Arial Bold', 8), auto_size_button=False, size=(30, 3))]
           ]
 
 #Initializing the Window
