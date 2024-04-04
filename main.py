@@ -96,17 +96,17 @@ def getOrganizationFromClick(theEvent, thePartners):
        # Getting Row and Column from second tuple in event
     print("Compiling Organization rows and columns...")
     rowAndColumn = theEvent[2]
-    print(rowAndColumn)
+    print("Selected cell is " + str(rowAndColumn))
     if rowAndColumn[0] == -1:
-        print("Pick 0th Organization")
+        print("Override selection of headings by selecting first avaiable organization.")
         Organization = 0
     else:
         Organization = rowAndColumn[0]
-        print("Organization: " + str(Organization))
+        print("Selected Organization postition in partners is " + str(Organization))
     print("Organization Compiled from Click!")
        # Getting the organization from the row and column tuple (r, c) from the first element
        #return the organization
-    print(thePartners[Organization][0])
+    print("The first selected partner is " + thePartners[Organization][0])
     return thePartners[Organization][0]
 ##########
 
@@ -117,11 +117,11 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
     theInformation = ""                                                     #informationList is for the information of organizations
     for i in range(len(informationList)):                                  #Getting organization information with theOrganization to use for informationList
         print(f"Traversing List of Information \n Traversing Index {i}") #Debugging
-        print(theOrganization) #Debug for our organization
+        print("The selected Organization is " + str(theOrganization)) #Debug for our organization
         if theOrganization == informationList[i][0][0]: #if the organization matches with the organization in the info list
-            print(informationList[i][0]) #Debug to show information
+            print("The selected organization is " + str(informationList[i][0]) + " compiled information about them is: " + str(informationList[i][1])) #Debug to confirm information
             theInformation = informationList[i][1] # Packaging all the information from the list of organization
-            print(informationList[i][1]) #Debug Confirmation of the Information
+            
 
 
 
@@ -135,16 +135,16 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 #Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
 #While popup window is active
-    print(f"{theOrganization} window is displayed!")    
+    print(f"{theOrganization} window is being displayed!")   
     while True:
         event, values = window.read()
-        print(event)
+        print("The user has selected: " + str(event))
         if event is not None and 'AddOrg' in event: #Check if "Add Organization button is clicked to append"
             for i in range(len(partners)):
                 if theOrganization in partners[i] and not(partners[i] in userCollection):
                     userCollection.append(partners[i])
                     sg.popup_ok(partners[i][0] + " has been added!\n Go to \"View Added Information\" to view it!", non_blocking=True)
-                    print(userCollection)
+                    print("The user selected organizations are: " + str(userCollection))
         elif event == sg.WIN_CLOSED:
             break
     window.close()
@@ -175,7 +175,7 @@ def displayHelpWindow():
     print("Displaying Help(FAQs) Window!")
     while True:
         event, values = window.read()
-        print(event, values)
+        print("The user has selected " + str(event) + " in the faq window.")
         if event is not None and event == 'HELP1':
             window['-1-'].Update(visible=True)
         elif event is not None and event == 'HELP2':
@@ -270,7 +270,7 @@ def ViewInformationWindow(allInformation):
 
     while True:
         event, values = window.read()
-        print(event, values)
+        print("The user has selected " + str(event) + " with " + str(values) + " in the information window.")
         if event == sg.WIN_CLOSED:
             break
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
@@ -298,10 +298,10 @@ layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center
 #Initializing the Window
 window = sg.Window("Industry Partners", layout, size=(1000,420))#Window name, size, and layout
 
-#Loop of executing the window
+#Loop of executing the primary window
 while True:
     event, values = window.read()
-    print(event, values)
+    print("The user has selected " + str(event) + " with " + str(values) + " in the primary window.")
     if event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
         getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation)
     elif event is not None and ('VIEW' in event):
