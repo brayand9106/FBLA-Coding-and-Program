@@ -78,31 +78,30 @@ duplicatePartners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering S
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
 
 partnerInformation = [[[partners[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."], 
-                      [[partners[1][0]], ],
-                      [[partners[2][0]], ],
-                      [[partners[3][0]], ],
-                      [[partners[4][0]], ],
-                      [[partners[5][0]], ],
-                      [[partners[6][0]], ],
-                      [[partners[7][0]], ],
-                      [[partners[8][0]], ],
-                      [[partners[9][0]], ],
-                      [[partners[10][0]], ],
-                      [[partners[11][0]], ],
-                      [[partners[12][0]], ],
-                      [[partners[13][0]], ],
-                      [[partners[14][0]], ],
-                      [[partners[15][0]], ],
-                      [[partners[16][0]], ],
-                      [[partners[17][0]], ],
-                      [[partners[18][0]], ],
-                      [[partners[19][0]], ],
-                      [[partners[20][0]], ],
-                      [[partners[21][0]], ],
-                      [[partners[22][0]], ],
-                      [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"],
-                      [[partners[24][0]], ],
-                      [[partners[25][0]], ]
+                     # [[partners[1][0]], ],
+                     # [[partners[2][0]], ],
+                    #  [[partners[3][0]], ],
+                    #  [[partners[4][0]], ],
+                    #  [[partners[5][0]], ],
+                    #  [[partners[6][0]], ],
+                    #  [[partners[7][0]], ],
+                    #  [[partners[8][0]], ],
+                    #  [[partners[9][0]], ],
+                    #  [[partners[10][0]], ],
+                    #  [[partners[11][0]], ],
+                    #  [[partners[12][0]], ],
+                    #  [[partners[13][0]], ],
+                     # [[partners[14][0]], ],
+                    #  [[partners[15][0]], ],
+                    #  [[partners[16][0]], ],
+                    #  [[partners[17][0]], ],
+                     # [[partners[18][0]], ],
+                    #  [[partners[19][0]], ],
+                     # [[partners[20][0]], ],
+                     # [[partners[21][0]], ],
+                      #[[partners[22][0]], ],
+                     [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"],
+                      #[[partners[24][0]], ],
                       
                       ]
 
@@ -237,7 +236,7 @@ def displayHelpWindow():
 def saveToExcel(allInformation):
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
     List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
-    print(List) 
+    sg.popup_ok("A backup with your added organizations has been made called \"PartnershipBackups.xlsx\" in your user file!", non_blocking=True) 
 
 
 
@@ -280,7 +279,8 @@ def updateInformationFromMenu(filterKeyEvent, theTable, acquiredInformation):
 def ViewInformationWindow(allInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
-              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
+              [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))],
+              [sg.Button('Restore from Backup', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='-RESTORE-')]]
     
     window = sg.Window("Collected Partners", layout, size=(1000, 420))
 
@@ -303,6 +303,17 @@ def ViewInformationWindow(allInformation):
                 #collectedInformation.remove(orgIndex)
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
+        #elif event is not None and ('-RESTORE-' in event):
+            #try:
+              #  theBackup = pd.read_excel("PartnershipBackups.xlsx")
+                #print(theBackup)
+                #for row in theBackup.iterrows():
+                  #  print(str(row[1]))
+                  #  collectedInformation.append(str(row[1][1]))
+                  #  window['VIEWTABLE'].Update(values=collectedInformation)
+           # except FileNotFoundError:
+              #  print("No file \"PartnershipBackups.xlsx\" was found, either deleted/does not exist or name changed")
+               # sg.popup_ok("Could not find \"PartnershipBackups.xlsx\", either deleted/does not exist or name changed")
     window.close()
 
 
