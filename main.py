@@ -303,17 +303,24 @@ def ViewInformationWindow(allInformation):
                 #collectedInformation.remove(orgIndex)
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
-        #elif event is not None and ('-RESTORE-' in event):
-            #try:
-              #  theBackup = pd.read_excel("PartnershipBackups.xlsx")
-                #print(theBackup)
-                #for row in theBackup.iterrows():
-                  #  print(str(row[1]))
-                  #  collectedInformation.append(str(row[1][1]))
-                  #  window['VIEWTABLE'].Update(values=collectedInformation)
-           # except FileNotFoundError:
-              #  print("No file \"PartnershipBackups.xlsx\" was found, either deleted/does not exist or name changed")
-               # sg.popup_ok("Could not find \"PartnershipBackups.xlsx\", either deleted/does not exist or name changed")
+        elif event is not None and ('-RESTORE-' in event):
+            try:
+                #Opens the backup file
+                theBackup = pd.read_excel("PartnershipBackups.xlsx")
+                #This loops through each row of the pandas dataframe
+                for row in theBackup.itertuples():
+                    #This creates a temporary table to append each information of organization to eventually append into
+                    #collectedInformation as a whole
+                    elementOrganization = []
+                    for i in range(2, 5):
+                        elementOrganization.append(str(row[i]))
+                    collectedInformation.append(elementOrganization)
+                    #The view table is updated with restored backups
+                    window['VIEWTABLE'].Update(values=collectedInformation)
+                sg.popup_ok("Partnership Backups Restored!")
+            except FileNotFoundError:
+                print("No file \"PartnershipBackups.xlsx\" was found, either deleted/does not exist or name changed")
+                sg.popup_ok("Could not find \"PartnershipBackups.xlsx\", either deleted/does not exist or name changed")
     window.close()
 
 
