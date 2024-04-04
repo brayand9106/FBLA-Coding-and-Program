@@ -78,8 +78,8 @@ duplicatePartners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering S
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
 
 partnerInformation = [[[partners[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."], 
-                      [[partners[1][0]], ""],
-                      [[partners[2][0]], ""],
+                      [[partners[1][0]], "A semiconductor company focusing exclusively on the production of Graphics Processing Units."],
+                      [[partners[2][0]], "Intel corporation both designs and manufactures a variety of computer parts and other such related products."],
                       [[partners[3][0]], "Microchip company that develops a variety of computer parts for businesses and consumer markets."],
                       [[partners[4][0]], "Every item purchased on Amazon supports FBLA."],
                       [[partners[5][0]], "Providing FBLA members with car insurance at a special discount."],
