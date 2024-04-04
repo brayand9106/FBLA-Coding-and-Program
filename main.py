@@ -12,9 +12,13 @@ menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Show Not Added'
 buttonmenu = sg.ButtonMenu("Filter", menu_def, size=(50,50))
 
 
-######## TABLE VALUES AND TABLE LAYOUT ##########
+########################################## TABLE VALUES AND TABLE LAYOUT #####################################
+
+
+
 partnerCategories = ['Organization', 'Type of Organization', 'Contacts']
-##### a static list of the partners
+
+#Mutable table to be used during display on program for organizations
 partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
@@ -43,6 +47,7 @@ partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', '
 
 ]
 
+#Immutable table to be used to recover lost data from table
 duplicatePartners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', 'FultonSchools@asu.edu'],
             ['Nvidia Corporation', 'Chip Maker', 'example@email.com'],
             ['Intel Corporation', 'Chip Maker', 'intel.partner.marketing.studio@intel.com'],
@@ -73,13 +78,43 @@ duplicatePartners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering S
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
 
 partnerInformation = [[[partners[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."], 
-                      [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"]
+                      [[partners[1][0]], ],
+                      [[partners[2][0]], ],
+                      [[partners[3][0]], ],
+                      [[partners[4][0]], ],
+                      [[partners[5][0]], ],
+                      [[partners[6][0]], ],
+                      [[partners[7][0]], ],
+                      [[partners[8][0]], ],
+                      [[partners[9][0]], ],
+                      [[partners[10][0]], ],
+                      [[partners[11][0]], ],
+                      [[partners[12][0]], ],
+                      [[partners[13][0]], ],
+                      [[partners[14][0]], ],
+                      [[partners[15][0]], ],
+                      [[partners[16][0]], ],
+                      [[partners[17][0]], ],
+                      [[partners[18][0]], ],
+                      [[partners[19][0]], ],
+                      [[partners[20][0]], ],
+                      [[partners[21][0]], ],
+                      [[partners[22][0]], ],
+                      [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"],
+                      [[partners[24][0]], ],
+                      [[partners[25][0]], ]
                       
                       ]
 
 
 collectedInformation = []
+
+
+
 ########################################## SEARCH THROUGH LIST FOR ORGANIZATION #####################################
+
+
+
 def searchList(theList, item):
     for i in range(len(theList)):
         if(theList[i][0].find(item) != -1):
@@ -87,9 +122,11 @@ def searchList(theList, item):
             return i
 
 
-##### METHOD FOR CLICKING ORGANIZATIONS ON TABLE##########################################################################
 
-################### CHECK HERE
+########################################## METHOD FOR CLICKING ORGANIZATIONS ON A TABLE #####################################
+
+
+
 def getOrganizationFromClick(theEvent, thePartners):
    # If click is found inside event
    #if theEvent == ('-TABLE-', '+CLICKED+', (tuple)):
@@ -108,10 +145,13 @@ def getOrganizationFromClick(theEvent, thePartners):
        #return the organization
     print("The first selected partner is " + thePartners[Organization][0])
     return thePartners[Organization][0]
-##########
 
 
-##### GET POPUP METHOD FOR CLICKING ON ORGANIZATION #######################################################################
+
+########################################## GET POPUP INFORMATION FOR CLICKING ON ORGANIZATION #####################################
+
+
+
 def getOrganizationPopup(theOrganization, informationList, userCollection): #User Collection is the list to keep track of partners approved
     print(f"Displaying {theOrganization} Window...")
     theInformation = ""                                                     #informationList is for the information of organizations
@@ -121,9 +161,6 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
         if theOrganization == informationList[i][0][0]: #if the organization matches with the organization in the info list
             print("The selected organization is " + str(informationList[i][0]) + " compiled information about them is: " + str(informationList[i][1])) #Debug to confirm information
             theInformation = informationList[i][1] # Packaging all the information from the list of organization
-            
-
-
 
 #Layout of the popup window for the organization
     layout = [[sg.Text(theOrganization, font=('Arial Bold', 20), justification='center', expand_x=True, size=(20, 1))],
@@ -131,7 +168,6 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
               [sg.Button('Add Organization', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='AddOrg'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))], 
                ]
     
-
 #Initializing the popup window
     window = sg.Window("Organization Information", layout, size=(800, 420))
 #While popup window is active
@@ -149,7 +185,12 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             break
     window.close()
 
-########################################## HELP WINDOW ######################################################
+
+
+########################################## HELP WINDOW #####################################
+    
+
+
 def displayHelpWindow():
 
     answers = [
@@ -190,12 +231,20 @@ def displayHelpWindow():
 
 
 ########################################## SAVE INFORMATION TO AN EXCEL #####################################
+
+
+
 def saveToExcel(allInformation):
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
     List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
     print(List) 
-########################################## UPDATE INFORMATION FROM FILTER #########################
+
+
+
+########################################## UPDATE INFORMATION FROM FILTER ###################################
     
+
+
 def updateInformationFromMenu(filterKeyEvent, theTable, acquiredInformation):
     #temporary table returned to update table values
     newTable = []
@@ -205,46 +254,16 @@ def updateInformationFromMenu(filterKeyEvent, theTable, acquiredInformation):
         #This checks whether first value compared to next value is bigger than other lexographically
         newTable = sorted(theTable, key= lambda x: x[0])
         return newTable
-        #Size of partners table to go through
-            # for i in range(1, len(theTable)):
-            #     print(i)
-            #     #This checks whether first value compared to next value is bigger than other lexographically
-            #     if theTable[i-1][0] > theTable[i][0]:
-            #         if(theTable[i-1] in newTable):
-            #             newTable.remove(theTable[i-1])
-            #         newTable.insert(i, theTable[i-1])
-            #         newTable.insert(i-1, theTable[i])
-            #         print("first is bigger")
-            #     elif theTable[i-1][0] < theTable[i][0]:
-            #         print("second is bigger")
-            #         newTable.insert(i-1, theTable[i-1])
-            #         newTable.insert(i, theTable[i])
-            # return newTable
-        #If filter picked is type of organization
+
+    #If filter picked is type of organization
     elif filterKeyEvent == 'Type of Organization':
         #This checks whether first value compared to next value is bigger than other lexographically
         newTable = sorted(theTable, key= lambda x: x[1])
         return newTable
-        # #Size of partners table to go through
-            # for i in range(1, len(theTable)):
-            #     print(i)
-            #     #This checks whether first value compared to next value is bigger than other lexographically
-            #     if theTable[i-1][1] > theTable[i][1]:
-            #         newTable.insert(i, theTable[i-1])
-            #         newTable.insert(i-1, theTable[i])
-            #         print("first is bigger")
-            #     elif theTable[i-1][1] < theTable[i][1]:
-            #         print("second is bigger")
-            #         newTable.insert(i-1, theTable[i-1])
-            #         newTable.insert(i, theTable[i])
-            #     elif theTable[i-1][1] == theTable[i][1]:
-            #         newTable.insert(i-1, theTable[i])
-            # print(newTable)
-            # return newTable
+    
+    #If filter picked is 'show not added'
     elif filterKeyEvent == 'Show Not Added':
-        #Date feature not implemented yet
-        #sg.popup_cancel('Not implemented Yet', non_blocking=True,)
-        #return theTable
+        #Sorts partner table to be put in a temporary sorted table that is returned showing not added organizations
         sortedTable = []
         for i in range(len(theTable)):
             if not(theTable[i] in acquiredInformation):
@@ -253,20 +272,17 @@ def updateInformationFromMenu(filterKeyEvent, theTable, acquiredInformation):
 
 
 
-    
-
-####### MAIN ########
 
 ############################ VIEW INFORMATION WINDOW#############################
+    
+
+
 def ViewInformationWindow(allInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
               [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
     
     window = sg.Window("Collected Partners", layout, size=(1000, 420))
-
-
-
 
     while True:
         event, values = window.read()
@@ -288,7 +304,12 @@ def ViewInformationWindow(allInformation):
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
     window.close()
-#################################################################################
+
+
+
+########################################## MAIN PRIMARY WINDOW #####################################
+
+
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
