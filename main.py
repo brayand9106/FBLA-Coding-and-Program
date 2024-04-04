@@ -43,7 +43,7 @@ partners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering School', '
             ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
             ['SCAD', 'Education', 'techsupport@scad.edu'],
             ['Meta', 'Education', 'info@meta.edu.np'],
-            ['Accountant of International Certified Professional Accountants', 'Education', 'startheregoplaces@aicpa.org']
+            ['AICPA', 'Education', 'startheregoplaces@aicpa.org']
 
 ]
 
@@ -72,40 +72,41 @@ duplicatePartners = [['ASU Ira A. Fulton Schools of Engineering', 'Engineering S
             ['March of Dimes', 'Community', 'servicedesk@marchofdimes.org'],
             ['SCAD', 'Education', 'techsupport@scad.edu'],
             ['Meta', 'Education', 'info@meta.edu.np'],
-            ['Accountant of International Certified Professional Accountants', 'Education', 'startheregoplaces@aicpa.org']
+            ['AICPA', 'Education', 'startheregoplaces@aicpa.org']
 
 ]
 partnerTable = sg.Table(values=partners, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='-TABLE-', enable_click_events=True)
 
+#Information for all the partners
 partnerInformation = [[[partners[0][0]],"Serving and partnering with Faculty, Staff, and Students across the Fulton Schools of Engineering. Our core services include technology planning, support, and implementation."], 
-                     # [[partners[1][0]], ],
-                     # [[partners[2][0]], ],
-                    #  [[partners[3][0]], ],
-                    #  [[partners[4][0]], ],
-                    #  [[partners[5][0]], ],
-                    #  [[partners[6][0]], ],
-                    #  [[partners[7][0]], ],
-                    #  [[partners[8][0]], ],
-                    #  [[partners[9][0]], ],
-                    #  [[partners[10][0]], ],
-                    #  [[partners[11][0]], ],
-                    #  [[partners[12][0]], ],
-                    #  [[partners[13][0]], ],
-                     # [[partners[14][0]], ],
-                    #  [[partners[15][0]], ],
-                    #  [[partners[16][0]], ],
-                    #  [[partners[17][0]], ],
-                     # [[partners[18][0]], ],
-                    #  [[partners[19][0]], ],
-                     # [[partners[20][0]], ],
-                     # [[partners[21][0]], ],
-                      #[[partners[22][0]], ],
-                     [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"],
-                      #[[partners[24][0]], ],
+                     [[partners[1][0]], "A semiconductor company focusing exclusively on the production of Graphics Processing Units."],
+                      [[partners[2][0]], "Intel corporation both designs and manufactures a variety of computer parts and other such related products."],
+                      [[partners[3][0]], "Microchip company that develops a variety of computer parts for businesses and consumer markets."],
+                      [[partners[4][0]], "Every item purchased on Amazon supports FBLA."],
+                      [[partners[5][0]], "Providing FBLA members with car insurance at a special discount."],
+                      [[partners[6][0]], "Preparing Students to become proficcient in the business field with courses including Marketing, Accounting, Entrepreneurship, and much more."],
+                      [[partners[7][0]], "A platform to showcase the many skills that students have that allows for the connection between other students in a professional manner."],
+                      [[partners[8][0]], "Educating students on the importance of credit literacy through free education in fun and simple ways for the most effective learning experience."],
+                      [[partners[9][0]], "Providing FBLA with hotels for various events and conferences for competitions and more."],
+                      [[partners[10][0]], "Starting from Harvard Business School, Juno is made to alleviate the pressure put on students by student loans by negotiating savings for free."],
+                      [[partners[11][0]], "IMA offers finance and business students with the necesary information for success through conferences, scholarships, competitions and much more."],
+                      [[partners[12][0]], "Teaching students how to how to improve employability skills by teaching proper ways to write emails."],
+                      [[partners[13][0]], "Compete in a competitive event that test the skills needed for future finances such as opening bank accounts, saving, and budgeting"],
+                      [[partners[14][0]], "Giving students a 7 year headstart on their career, Eagle University is open to students 15-25 years old with career planning, performmance strategy, and much more."],
+                      [[partners[15][0]], "Preparing students for college by enhancing various skills, iD Tech has everything covered ranging from private lessons, to Summer camps to ensure the best outcome for college admissions."],
+                      [[partners[16][0]], "Acknowledging the hard work of CTE students, and FBLA memebers alike, NTHS encourages students to perform at their best, and eventually work in a skilled workspace with the many scholarships given."],
+                      [[partners[17][0]], "A virtual program for high school students to make more future entrepreneurs and leaders, featuring a fully interactive online workspace to ensure the proper training of students."],
+                      [[partners[18][0]], "Training more than 1.2 million students, CarrerSafe focuses on providing students with a safe future by giving them proper training for online safety."],
+                      [[partners[19][0]], "A new initiative way to do fundraisers, providing FBLA chapters with product lines that gives half of the money received back with no hassles or difficulties."],
+                      [[partners[20][0]], "Create fundraising goals for all FBLA chapters with tools provided for by fund2org, helping not only FBLA, but those in need."],
+                      [[partners[21][0]], "March of Dimes aims to help aid mothers and babies through the advocation of health by raising money to assist soon to be mothers, and mothers in need."],
+                      [[partners[22][0]], "Bringing students from more than 100 countries with over 100 academic degree programs. Internships, certifications, and collaborative projects are all involved in the SCAD curriculum."],
+                      [[partners[23][0]], "Providing the basics of digital marketing to help aid educators with online content such as online quizzes, and lessons through full flexibility"],
+                      [[partners[24][0]], "(Accountant of International Certified Professional Accountants): \nLearn how to become a certified professional accountant with a fully personalized College Checklist, as well as the many opportunities to learn from professionals."]
                       
                       ]
 
-
+#Organizations added by user
 collectedInformation = []
 
 
@@ -113,7 +114,7 @@ collectedInformation = []
 ########################################## SEARCH THROUGH LIST FOR ORGANIZATION #####################################
 
 
-
+#This searches through a list to find a specific organization returning the index of it
 def searchList(theList, item):
     for i in range(len(theList)):
         if(theList[i][0].find(item) != -1):
@@ -127,9 +128,8 @@ def searchList(theList, item):
 
 
 def getOrganizationFromClick(theEvent, thePartners):
-   # If click is found inside event
-   #if theEvent == ('-TABLE-', '+CLICKED+', (tuple)):
-       # Getting Row and Column from second tuple in event
+    # If click is found inside event
+    # Getting Row and Column from second tuple in event
     print("Compiling Organization rows and columns...")
     rowAndColumn = theEvent[2]
     print("Selected cell is " + str(rowAndColumn))
@@ -192,6 +192,7 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
 
 def displayHelpWindow():
 
+    #Answers for each FAQs in the help menu
     answers = [
         ["To find your saved excel sheet, go to C:/Users/(YOUR USER)/PartnershipBackups.xlsx"],
         ["To remove an organization added, simply go to the \"View Added Information\" and click on the table for any \n organization to get prompted on removing one"],
@@ -213,6 +214,7 @@ def displayHelpWindow():
     window = sg.Window('FAQs', layout, size=(800, 600))
 
     print("Displaying Help(FAQs) Window!")
+    #Displays the help answer in the FAQ based on user response
     while True:
         event, values = window.read()
         print("The user has selected " + str(event) + " in the faq window.")
@@ -232,9 +234,11 @@ def displayHelpWindow():
 ########################################## SAVE INFORMATION TO AN EXCEL #####################################
 
 
-
+#Converts the list to a pandas dataframe(special table) to an excel file
 def saveToExcel(allInformation):
+    #Converting list into a pandas dataframe
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
+    #Pandas dataframe into excel
     List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
     sg.popup_ok("A backup with your added organizations has been made called \"PartnershipBackups.xlsx\" in your user file!", non_blocking=True) 
 
@@ -289,6 +293,7 @@ def ViewInformationWindow(allInformation):
         print("The user has selected " + str(event) + " with " + str(values) + " in the information window.")
         if event == sg.WIN_CLOSED:
             break
+        #This displays the option from organization clicked on to be removed
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
             theOrg = getOrganizationFromClick(event, collectedInformation)
             print(theOrg)
@@ -300,9 +305,10 @@ def ViewInformationWindow(allInformation):
                 print(orgIndex)
                 collectedInformation.pop(orgIndex)
                 window['VIEWTABLE'].Update(values=(collectedInformation))
-                #collectedInformation.remove(orgIndex)
+        #Saves collected information into excel
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
+        #Restores backup into collected information to edit
         elif event is not None and ('-RESTORE-' in event):
             try:
                 #Opens the backup file
