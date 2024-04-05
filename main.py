@@ -366,10 +366,12 @@ while True:
         if dynamicToggle == False:
             dynamicToggle = True
             window['TOGGLE'].Update(text='On', button_color='white on green')
+            sg.popup_ok("Dynamic toggle is On! Any organizations added/removed will be automatically saved to excel!", title="Dynamic Toggle")
         #If button is true then set it to false
         elif dynamicToggle == True:
             dynamicToggle = False
             window['TOGGLE'].Update(text='Off', button_color='white on red')
+            sg.popup_ok("Dynamic toggle is Off! Any organizations added/removed will NOT be automatically saved to excel!", title="Dynamic Toggle")
         print("The user has switched the dynamic toggle to " + str(dynamicToggle) + "!")
     #Event looks for table and clicked to show information on organization clicked
     elif event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
