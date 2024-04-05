@@ -1,6 +1,4 @@
 import PySimpleGUI as sg
-import os
-from pathlib import Path
 import pandas as pd
 
 #Dependencies including openpyxl
@@ -151,7 +149,7 @@ def getOrganizationFromClick(theEvent, thePartners):
 
 
 
-def getOrganizationPopup(theOrganization, informationList, userCollection): #User Collection is the list to keep track of partners approved
+def getOrganizationPopup(theOrganization, informationList, userCollection, theToggle): #User Collection is the list to keep track of partners approved
     print(f"Displaying {theOrganization} Window...")
     theInformation = ""                                                     #informationList is for the information of organizations
     for i in range(len(informationList)):                                  #Getting organization information with theOrganization to use for informationList
@@ -178,6 +176,9 @@ def getOrganizationPopup(theOrganization, informationList, userCollection): #Use
             for i in range(len(partners)):
                 if theOrganization in partners[i] and not(partners[i] in userCollection):
                     userCollection.append(partners[i])
+                    #Checks if dynamicToggle is enabled to save to excel if organization appended
+                    if theToggle == True:
+                        saveToExcel(userCollection, theToggle)
                     sg.popup_ok(partners[i][0] + " has been added!\n Go to \"View Added Information\" to view it!", non_blocking=True)
                     print("The user selected organizations are: " + str(userCollection))
         elif event == sg.WIN_CLOSED:
@@ -235,12 +236,13 @@ def displayHelpWindow():
 
 
 #Converts the list to a pandas dataframe(special table) to an excel file
-def saveToExcel(allInformation):
+def saveToExcel(allInformation, theToggle=False):
     #Converting list into a pandas dataframe
     List = pd.DataFrame(columns=partnerCategories, data=allInformation)
     #Pandas dataframe into excel
     List.to_excel(excel_writer=('PartnershipBackups.xlsx'), sheet_name="Partnered Organizations")
-    sg.popup_ok("A backup with your added organizations has been made called \"PartnershipBackups.xlsx\" in your user file!", non_blocking=True) 
+    if theToggle == False:
+        sg.popup_ok("A backup with your added organizations has been made called \"PartnershipBackups.xlsx\" in your user file!", non_blocking=True) 
 
 
 
@@ -276,11 +278,11 @@ def updateInformationFromMenu(filterKeyEvent, theTable, acquiredInformation):
 
 
 
-############################ VIEW INFORMATION WINDOW#############################
+############################ VIEW INFORMATION WINDOW #############################
     
 
 
-def ViewInformationWindow(allInformation):
+def ViewInformationWindow(allInformation, theToggle):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
               [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))],
@@ -293,6 +295,7 @@ def ViewInformationWindow(allInformation):
         print("The user has selected " + str(event) + " with " + str(values) + " in the information window.")
         if event == sg.WIN_CLOSED:
             break
+        
         #This displays the option from organization clicked on to be removed
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
             theOrg = getOrganizationFromClick(event, collectedInformation)
@@ -304,10 +307,14 @@ def ViewInformationWindow(allInformation):
                 orgIndex = searchList(collectedInformation, theOrg)
                 print(orgIndex)
                 collectedInformation.pop(orgIndex)
+                #Checks if dynamicToggle is enabled to save removed changes
+                if theToggle == True:
+                    saveToExcel(collectedInformation, theToggle)
                 window['VIEWTABLE'].Update(values=(collectedInformation))
         #Saves collected information into excel
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
+
         #Restores backup into collected information to edit
         elif event is not None and ('-RESTORE-' in event):
             try:
@@ -327,6 +334,7 @@ def ViewInformationWindow(allInformation):
             except FileNotFoundError:
                 print("No file \"PartnershipBackups.xlsx\" was found, either deleted/does not exist or name changed")
                 sg.popup_ok("Could not find \"PartnershipBackups.xlsx\", either deleted/does not exist or name changed")
+
     window.close()
 
 
@@ -337,20 +345,39 @@ def ViewInformationWindow(allInformation):
 
 #Layout of how the window looks
 layout = [[sg.Text("Industry Partners List", size=(40, 1), justification="center", expand_x=True, font=("Arial Bold", 20))],
-          [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW'), sg.Push(), sg.CButton("Exit", font=('Arial Bold', 8), auto_size_button=False, size=(30, 3))]
+          [sg.Menu(menu_def)], [partnerTable], [sg.Button('View Added Information', auto_size_button=False, font=('Arial Bold', 8), size=(30, 3), key='VIEW'), sg.Push(), sg.CButton("Exit", font=('Arial Bold', 8), auto_size_button=False, size=(30, 3))],
+          [sg.Push(), sg.Text("Dynamic Backup Toggle", font=('Arial', 10), size=(15, 2)), sg.Button("Off", font=('Arial Bold', 8), size=(15,2), button_color="white on red", key='TOGGLE')]
           ]
 
 #Initializing the Window
 window = sg.Window("Industry Partners", layout, size=(1000,420))#Window name, size, and layout
 
+#Checks if dynamic saving is toggled
+dynamicToggle = False
+
 #Loop of executing the primary window
 while True:
     event, values = window.read()
     print("The user has selected " + str(event) + " with " + str(values) + " in the primary window.")
-    if event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
-        getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation)
+
+    #Checks if dynamicToggle button is activated
+    if event is not None and ('TOGGLE' in event):
+        #If button is false then set it to true
+        if dynamicToggle == False:
+            dynamicToggle = True
+            window['TOGGLE'].Update(text='On', button_color='white on green')
+        #If button is true then set it to false
+        elif dynamicToggle == True:
+            dynamicToggle = False
+            window['TOGGLE'].Update(text='Off', button_color='white on red')
+        print("The user has switched the dynamic toggle to " + str(dynamicToggle) + "!")
+    #Event looks for table and clicked to show information on organization clicked
+    elif event is not None and ('-TABLE-' and '+CLICKED+' in event) and (event[2][0] != None):
+        getOrganizationPopup((getOrganizationFromClick(event, partners)), partnerInformation, collectedInformation, dynamicToggle)
     elif event is not None and ('VIEW' in event):
-        ViewInformationWindow(collectedInformation)
+    #Opens the view information window which shows user's collected partners/information
+        ViewInformationWindow(collectedInformation, dynamicToggle)
+    #Changes table based on filter or shows FAQs from the menu bar
     elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
         if event is not None and event == 'FAQs':
             displayHelpWindow()
@@ -367,6 +394,8 @@ while True:
                 #Partners is update and table with appropiate filter ("Alphabetical" or "type of organization")
                 partners = updateInformationFromMenu(event, partners, collectedInformation)
                 window['-TABLE-'].Update(values=(partners))
+    
+
     elif event == sg.WIN_CLOSED:
         break
 window.close()
