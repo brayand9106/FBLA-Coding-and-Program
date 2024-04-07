@@ -1,7 +1,8 @@
+
 import PySimpleGUI as sg
 import pandas as pd
-
 #Dependencies including openpyxl
+
 sg.theme("DefaultNoMoreNagging") #The theme of the window for the program
 #Menu dropdown from filter button
 menu_def = [['Filter', ['Alphabetical', 'Type of Organization', 'Show Not Added']], ['Help', ['FAQs']]]
@@ -401,3 +402,10 @@ while True:
     elif event == sg.WIN_CLOSED:
         break
 window.close()
+
+'''
+Created by: Brayan Dominguez, Cristian Flores, Graham VanDerBeek
+Date: January 29th, 2024
+Version 1.0.0.
+FBLA Industry Partners Program
+'''
