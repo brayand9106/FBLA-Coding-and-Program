@@ -287,16 +287,48 @@ def ViewInformationWindow(allInformation, theToggle):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
               [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))],
-              [sg.Button('Restore from Backup', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='-RESTORE-')]]
+              [sg.Button('Restore from Backup', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='-RESTORE-'), sg.Push(), sg.Button('Add Custom', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='CUSTOM')]]
     
     window = sg.Window("Collected Partners", layout, size=(1000, 420))
 
+    #While true, executing the viewInformationWindow until break
     while True:
         event, values = window.read()
         print("The user has selected " + str(event) + " with " + str(values) + " in the information window.")
         if event == sg.WIN_CLOSED:
             break
-        
+
+        #This allows the user to build a custom organization if Custom button is hit
+        elif event == 'CUSTOM':
+            #Temporary organization builder to append to collectedInformation later
+            organizationBuilder = []
+
+            #This block gets user inputs from popups for Organization information of name, type, and contact(Will be N/A if none or blank)
+            #This is for organization name input
+            org = sg.popup_get_text("Input the Organization Name!")
+            if org == None or org == "":
+                org = "N/A"
+            print("User has inputted " + org + " for Organization Name!")
+            #This is for organization type input
+            typeOrg = sg.popup_get_text("Input the Organization Type!")
+            if typeOrg == None or typeOrg == "":
+                typeOrg = "N/A"
+            print("User has inputted " + typeOrg + " for Organization Type!")
+            #This is for organization contact input
+            orgContact = sg.popup_get_text("Insert Organization Contact!")
+            if orgContact == None or orgContact == "":
+                orgContact = "N/A"
+            print("User has inputted " + orgContact + " for Organization Contact!")
+
+            #This builds the organization from the user inputs and appends it to collectedInformation
+            organizationBuilder.append(org)
+            organizationBuilder.append(typeOrg)
+            organizationBuilder.append(orgContact)
+            print("User Compiled Custom Organization: " + str(organizationBuilder))
+            collectedInformation.append(organizationBuilder)
+            #VIEWTABLE is updated with new custom organization
+            window['VIEWTABLE'].Update(values=(collectedInformation))
+
         #This displays the option from organization clicked on to be removed
         elif event is not None and ('VIEWTABLE' and '+CLICKED+' in event) and (event[2][0] != None):
             theOrg = getOrganizationFromClick(event, collectedInformation)
