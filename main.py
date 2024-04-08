@@ -224,8 +224,9 @@ def updateInformationFromMenu(filterKeyEvent, theTable):
 ####### MAIN ########
 
 ############################ VIEW INFORMATION WINDOW#############################
-def ViewInformationWindow(allInformation):
+def ViewInformationWindow(collectedInformation):
     layout = [[sg.Text("All Collected Partners", size=(40, 1), justification='center', expand_x=True, font=("Arial Bold", 20))],
+              [sg.Menu(menu_def)],
               [sg.Table(values= collectedInformation, headings=partnerCategories, font=('Arial', 10), justification= 'center', auto_size_columns=False, max_col_width=50, def_col_width=30, expand_x=True, key='VIEWTABLE', enable_click_events=True)], 
               [sg.Button('Save to Excel', font=("Arial Bold", 8), auto_size_button=False, size=(30, 5), key='SAVTOEXCEL'), sg.Push(), sg.CButton('Go Back', auto_size_button=False, font=('Arial Bold', 8), size=(30,5))]]
     
@@ -253,6 +254,9 @@ def ViewInformationWindow(allInformation):
                 #collectedInformation.remove(orgIndex)
         elif event is not None and ('SAVTOEXCEL' in event):
             saveToExcel(collectedInformation)
+        elif event is not None and ('Alphabetical' or 'Type of Organization' or 'Date' in event) and (event[2][0] != None):
+            window['VIEWTABLE'].Update(values=(updateInformationFromMenu(event, collectedInformation)))
+            collectedInformation = updateInformationFromMenu(event, collectedInformation)
     window.close()
 #################################################################################
 
